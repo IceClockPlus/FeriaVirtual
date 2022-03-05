@@ -1,7 +1,15 @@
+using FeriaVirtual.Database;
+using System.Linq;
+
 var builder = WebApplication.CreateBuilder(args);
 
+{
+    var services = builder.Services;
+    var env = builder.Environment;
+
+    services.AddDbContext<FeriaVirtualContext>();
+}
 // Add services to the container.
-var services = builder.Services;
 
 
 builder.Services.AddControllers();
