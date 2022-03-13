@@ -14,7 +14,7 @@ namespace FeriaVirtual.Database.EntitiesConfigurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasKey(u => u.Id);
-            builder.Property(u => u.Name).IsRequired();
+            builder.Property(u => u.FirstName).IsRequired();
             builder.Property(u => u.LastName).IsRequired();
             builder.Property(u => u.Email).IsRequired();
             builder.HasIndex(u => u.Email).IsUnique();
