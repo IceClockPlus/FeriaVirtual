@@ -1,4 +1,6 @@
-﻿namespace FeriaVirtual.API.Authorization
+﻿using FeriaVirtual.API.Services;
+
+namespace FeriaVirtual.API.Authorization
 {
     public class JwtMiddleware
     {
@@ -8,9 +10,16 @@
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, IUserService userService, IJwtUtils jwtUtils)
         {
+            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            var userId = jwtUtils.ValidateToken(token);
+            if(userId != null)
+            {
+                context.Items["User"] = userService.GetById(userId.Value);
+            }
 
+            await _next(context);
         }
     }
 }
