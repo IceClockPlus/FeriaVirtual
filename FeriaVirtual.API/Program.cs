@@ -1,3 +1,6 @@
+using FeriaVirtual.API.Authorization;
+using FeriaVirtual.API.Helpers;
+using FeriaVirtual.API.Services;
 using FeriaVirtual.Database;
 using System.Linq;
 
@@ -8,6 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
     var env = builder.Environment;
 
     services.AddDbContext<FeriaVirtualContext>();
+
+    services.AddCors();
+
+    services.AddAutoMapper(typeof(Program));
+    services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+
+    services.AddScoped<IUserService, UserService>();
+    services.AddScoped<IJwtUtils, JwtUtils>();
 }
 // Add services to the container.
 
@@ -25,6 +36,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
 app.UseHttpsRedirection();
 
