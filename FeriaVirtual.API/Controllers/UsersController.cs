@@ -33,8 +33,15 @@ namespace FeriaVirtual.API.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate(AuthenticateRequest model)
         {
-            var response = _userService.Authenticate(model);
-            return Ok(response);
+            try
+            {
+                var response = _userService.Authenticate(model);
+                return Ok(response);
+            }
+            catch (AppException appEx)
+            {
+                return BadRequest(appEx.Message);
+            }
         }
 
         [AllowAnonymous]

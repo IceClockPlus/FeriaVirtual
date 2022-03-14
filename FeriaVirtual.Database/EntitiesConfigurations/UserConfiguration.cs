@@ -19,6 +19,7 @@ namespace FeriaVirtual.Database.EntitiesConfigurations
             builder.Property(u => u.Email).IsRequired();
             builder.HasIndex(u => u.Email).IsUnique();
             builder.Property(u => u.Password).IsRequired();
+            builder.Property(u => u.IsEnabled).IsRequired().HasDefaultValue(true);
         }
     }
 }

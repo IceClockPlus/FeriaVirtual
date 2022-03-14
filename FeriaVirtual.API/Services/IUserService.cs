@@ -33,11 +33,14 @@ namespace FeriaVirtual.API.Services
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
             var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
+
             string hashedPass = SecurePaswordHasher.ComputeHash(model.Password);
             if (user == null || hashedPass != user.Password)
             {
                 throw new AppException("Username or password is incorrect");
             }
+            if (!user.IsEnabled)
+                throw new AppException("User is not enabled to log in");
 
             var response = _mapper.Map<AuthenticateResponse>(user);
             response.Token = _jwtUtils.GenerateToken(user);
