@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FeriaVirtual.APIModels\FeriaVirtual.APIModels.csproj" />
     <ProjectReference Include="..\FeriaVirtual.Database\FeriaVirtual.Database.csproj" />
   </ItemGroup>
 

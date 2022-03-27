@@ -1,5 +1,6 @@
 using FeriaVirtual.API.Authorization;
 using FeriaVirtual.API.Helpers;
+using FeriaVirtual.API.Repositories;
 using FeriaVirtual.API.Services;
 using FeriaVirtual.Database;
 using System.Linq;
@@ -18,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
     services.AddScoped<IUserService, UserService>();
+    services.AddScoped<IProductRepository, ProductRepository>();
     services.AddScoped<IJwtUtils, JwtUtils>();
 }
 // Add services to the container.
