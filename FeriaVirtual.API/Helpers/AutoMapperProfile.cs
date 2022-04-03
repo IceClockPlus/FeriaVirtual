@@ -3,6 +3,8 @@
     using AutoMapper;
     using FeriaVirtual.Database.Entities;
     using FeriaVirtual.API.Models.Users;
+    using FeriaVirtual.APIModels.Product;
+
     public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
@@ -25,6 +27,12 @@
                     return true;
                 }
             ));
+
+
+            // Product -> ProductResponse
+            CreateMap<Product, ProductResponse>()
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Name));
+
         }
     }
 }
