@@ -8,7 +8,7 @@ namespace FeriaVirtual.API.Repositories
 {
     public interface IProductRepository
     {
-        Task<IEnumerable<Product>> GetAll(ItemParameters parameters);
+        PagedList<Product> GetAll(ItemParameters parameters);
     }
 
     public class ProductRepository : IProductRepository
@@ -18,10 +18,10 @@ namespace FeriaVirtual.API.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Product>> GetAll(ItemParameters parameters)
+
+        public PagedList<Product> GetAll(ItemParameters parameters)
         {
-            return await _context.Products.Skip((parameters.PageNumber -1) * parameters.PageSize )
-                                    .Take(parameters.PageSize).ToListAsync();
+            return PagedList<Product>.ToPagedList(_context.Products, parameters.PageNumber, parameters.PageSize);
         }
     }
 }
