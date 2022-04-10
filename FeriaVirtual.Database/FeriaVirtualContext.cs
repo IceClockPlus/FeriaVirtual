@@ -27,11 +27,19 @@ namespace FeriaVirtual.Database
 
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Policy> Policy { get; set; }
+        public DbSet<PolicyRole> PolicyRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new PolicyConfiguration());
+            modelBuilder.ApplyConfiguration(new PolicyRoleConfiguration());
         }
     }
 }
