@@ -4,6 +4,7 @@ using FeriaVirtual.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FeriaVirtual.API.Migrations
 {
     [DbContext(typeof(FeriaVirtualContext))]
-    partial class FeriaVirtualContextModelSnapshot : ModelSnapshot
+    [Migration("20220403221718_UseRolesRelationship")]
+    partial class UseRolesRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,51 +23,6 @@ namespace FeriaVirtual.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("FeriaVirtual.Database.Entities.Policy", b =>
-                {
-                    b.Property<int>("PolicyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PolicyId"), 1L, 1);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 4, 10, 22, 32, 31, 579, DateTimeKind.Utc).AddTicks(2241));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PolicyId");
-
-                    b.ToTable("Policy");
-                });
-
-            modelBuilder.Entity("FeriaVirtual.Database.Entities.PolicyRole", b =>
-                {
-                    b.Property<int>("PolicyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 4, 10, 22, 32, 31, 579, DateTimeKind.Utc).AddTicks(4862));
-
-                    b.HasKey("PolicyId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("PolicyRoles");
-                });
 
             modelBuilder.Entity("FeriaVirtual.Database.Entities.Product", b =>
                 {
@@ -135,7 +92,7 @@ namespace FeriaVirtual.API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 4, 10, 22, 32, 31, 578, DateTimeKind.Utc).AddTicks(7618));
+                        .HasDefaultValue(new DateTime(2022, 4, 3, 22, 17, 18, 38, DateTimeKind.Utc).AddTicks(9778));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -219,32 +176,13 @@ namespace FeriaVirtual.API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 4, 10, 22, 32, 31, 579, DateTimeKind.Utc).AddTicks(1670));
+                        .HasDefaultValue(new DateTime(2022, 4, 3, 22, 17, 18, 39, DateTimeKind.Utc).AddTicks(3003));
 
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles");
-                });
-
-            modelBuilder.Entity("FeriaVirtual.Database.Entities.PolicyRole", b =>
-                {
-                    b.HasOne("FeriaVirtual.Database.Entities.Policy", "Policy")
-                        .WithMany("PolicyRoles")
-                        .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FeriaVirtual.Database.Entities.Role", "Role")
-                        .WithMany("PolicyRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Policy");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("FeriaVirtual.Database.Entities.UserRole", b =>
@@ -266,15 +204,8 @@ namespace FeriaVirtual.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FeriaVirtual.Database.Entities.Policy", b =>
-                {
-                    b.Navigation("PolicyRoles");
-                });
-
             modelBuilder.Entity("FeriaVirtual.Database.Entities.Role", b =>
                 {
-                    b.Navigation("PolicyRoles");
-
                     b.Navigation("UserRoles");
                 });
 

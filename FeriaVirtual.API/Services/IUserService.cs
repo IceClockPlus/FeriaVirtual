@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using FeriaVirtual.API.Helpers;
 using FeriaVirtual.API.Authorization;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace FeriaVirtual.API.Services
 {
@@ -32,7 +33,7 @@ namespace FeriaVirtual.API.Services
         }
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
+            var user = _context.Users.Where(x => x.Email == model.Email).Include(u => u.UserRoles).ThenInclude(rl => rl.Role).FirstOrDefault();
 
             string hashedPass = SecurePaswordHasher.ComputeHash(model.Password);
             if (user == null || hashedPass != user.Password)
